@@ -1,8 +1,6 @@
 import requests
 import json
 
-#API Key: 5956245bd2754f27a65213703240307
-
 def retrieveWeather(city):
     important_Weather_Details = {}
     response = requests.get(f'http://api.weatherapi.com/v1/forecast.json?key=5956245bd2754f27a65213703240307&q={city}&days=1&aqi=yes&alerts=yes')

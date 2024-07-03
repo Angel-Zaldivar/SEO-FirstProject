@@ -1,6 +1,5 @@
 from GetWeather import retrieveWeather
 
-
 print("Want to know the forecast for today, just input a city!")
 city = input('City: ')
 
