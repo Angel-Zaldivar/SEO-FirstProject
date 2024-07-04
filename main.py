@@ -2,12 +2,12 @@ from GetWeather import retrieveWeather
 from SQL_DataBase import DB
 print("Welcome!")
 print("Here are your options: ")
-print("View Saved Locations(0), or lookup a new location(1)")
+print("lookup a new location(0), View Saved Locations(1), Delete a location(2)")
 choice = input("Enter your choice: ")
 db = DB()
 
 while True:
-    if choice == "1":
+    if choice == "0":
         city = input('City: ')
         print('---'*20)
         data = retrieveWeather(city)
@@ -20,28 +20,54 @@ while True:
 
         if save_ans == 'y':
             db.insert_values(city, data)
-    else:
-        print('------Which city do you want up to day info from?------')
-        print('Your current saved cities: ')
+    elif choice == "1":
         cities = db.saved_cities()
 
-        for city in cities:
-            print(city)
-
-        print('---'*20)
-        desired_city = input("Which city would you like to look at?: ")
-
-        same_date = db.compare_data(desired_city)
-
-        if same_date == False:
-            db.update_db(desired_city)
-            db.print_desired_city(desired_city)
+        if len(cities) == 0:
+            print("There are no saved cities.")
         else:
-            db.print_desired_city(desired_city)
+            while True:
+                print('------Which city do you want up to day info from?------')
+                print('Your current saved cities: ')
 
-    cont = input("Would you like to continue?(y/n): ")
+                for city in cities:
+                    print(city[0])
+
+                print('---'*20)
+                desired_city = input("Which city would you like to look at?: ")
+
+                same_date = db.compare_data(desired_city)
+
+                if not same_date:
+                    db.update_db(desired_city)
+                    db.print_desired_city(desired_city)
+                else:
+                    db.print_desired_city(desired_city)
+
+                cont_saved = input('Would you like to continue looking at your locations?(y/n): ')
+
+                if cont_saved == 'n':
+                    break
+    else:
+        while True:
+            cities = db.saved_cities()
+            print('------Which city do you want up to delete------')
+            for city in cities:
+                print(city[0])
+            print('---'*20)
+            delete_city = input('City: ')
+
+            db.delete_row(delete_city)
+
+            cont_deletion = input('Would you like to continue deleting?(y/n): ')
+
+            if cont_deletion == 'n':
+                break
+
+
+    cont = input("This is the end of the app, would you like to continue?(y/n): ")
     if cont == 'n':
         break
     else:
-        print("View Saved Locations(0), or lookup a new location(1)")
+        print("lookup a new location(0), View Saved Locations(1), Delete a location(2)")
         choice = input("Enter your choice: ")
