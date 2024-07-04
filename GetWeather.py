@@ -7,6 +7,7 @@ def retrieveWeather(city):
 
     data = response.json()
 
+    important_Weather_Details['City'] = city
     important_Weather_Details['Current_Weather'] = data['current']['condition']['text']
     important_Weather_Details['Current_temp_c'] = data['current']['temp_c']
     important_Weather_Details['Current_temp_f'] = data['current']['temp_f']
